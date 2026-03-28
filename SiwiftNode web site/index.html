@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftNode | Gelecek Nesil Dijital Altyapı</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050505;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        .animate-spin-slow {
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .gradient-blur {
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        /* Dil geçişlerinde yumuşak geçiş */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden selection:bg-cyan-500/30">
+
+    <!-- Arka Plan Parlamaları -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-900/20 gradient-blur"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 gradient-blur"></div>
+    </div>
+
+    <!-- Navigasyon -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="zap" class="text-black fill-current w-6 h-6"></i>
+                </div>
+                <span class="text-2xl font-bold tracking-tighter">Swift<span class="text-cyan-400 font-extrabold">Node</span></span>
+            </div>
+
+            <!-- Masaüstü Menü -->
+            <div class="hidden md:flex items-center gap-8">
+                <div id="nav-links" class="flex gap-8">
+                    <!-- Dinamik olarak dolacak -->
+                </div>
+                <button onclick="toggleLanguage()" class="px-3 py-1 border border-white/20 rounded-full text-xs hover:bg-white/10 transition-all uppercase" id="lang-toggle-btn">
+                    EN
+                </button>
+                <button class="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-cyan-400 hover:text-black transition-all" data-content="ctaPrimary">
+                    Hemen Başlayın
+                </button>
+            </div>
+
+            <!-- Mobil Menü Butonu -->
+            <button class="md:hidden" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobil Menü -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-[45] flex flex-col items-center justify-center gap-8 transition-transform translate-x-full md:hidden">
+        <div id="mobile-nav-links" class="flex flex-col items-center gap-6 text-xl">
+            <!-- Dinamik olarak dolacak -->
+        </div>
+        <button onclick="toggleLanguage()" class="px-6 py-2 border border-white/20 rounded-full text-sm uppercase">EN</button>
+    </div>
+
+    <!-- Hero Bölümü -->
+    <section class="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 fade-in">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                    </span>
+                    AI-READY INFRASTRUCTURE
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]" data-content="heroTitle">
+                    Küresel zekanın yeni nesline güç veren dijital temeller.
+                </h1>
+                <p class="text-xl text-gray-400 max-w-lg leading-relaxed" data-content="heroSub">
+                    Dayanıklı, sürdürülebilir ve yüksek performanslı altyapı ile geleceği bugünden inşa edin.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-cyan-500 text-black px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                        <span data-content="ctaPrimary">Hemen Başlayın</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                    <button class="border border-white/20 px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/5 transition-colors" data-content="ctaSecondary">
+                        Altyapıyı Keşfet
+                    </button>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="relative z-10 w-full aspect-square flex items-center justify-center">
+                    <div class="absolute w-full h-full bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse blur-3xl"></div>
+                    <div class="grid grid-cols-4 gap-4 p-8 bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden w-full max-w-md">
+                        <div class="w-full h-12 rounded-md bg-cyan-500/40 animate-pulse"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-cyan-500/40 animate-pulse"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-cyan-500/40 animate-pulse"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-cyan-500/40 animate-pulse"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="w-full h-12 rounded-md bg-white/5"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İstatistikler -->
+    <section class="py-12 border-y border-white/5 bg-white/[0.02]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div id="stats-container" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Dinamik dolacak -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hizmetler -->
+    <section id="hizmetler" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4" data-content="servicesTitle">Hizmetlerimiz</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full"></div>
+            </div>
+            <div id="services-grid" class="grid md:grid-cols-3 gap-8">
+                <!-- Dinamik dolacak -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Altyapı Özeti -->
+    <section id="altyapı" class="py-24 px-6 bg-[#080808]">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+            <div class="order-2 md:order-1 relative">
+                <div class="aspect-video bg-gradient-to-br from-gray-900 to-black rounded-3xl border border-white/10 overflow-hidden flex items-center justify-center">
+                    <i data-lucide="globe" class="w-48 h-48 text-cyan-500/10 animate-spin-slow"></i>
+                    <div class="absolute top-10 left-10 w-4 h-4 bg-cyan-400 rounded-full blur-sm animate-pulse"></div>
+                    <div class="absolute bottom-10 right-20 w-3 h-3 bg-purple-500 rounded-full blur-sm animate-bounce"></div>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 space-y-8">
+                <h2 class="text-4xl md:text-5xl font-extrabold" data-content="infraTitle">Gelecek Nesil Mimari</h2>
+                <div id="infra-points" class="space-y-6">
+                    <!-- Dinamik dolacak -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sürdürülebilirlik -->
+    <section id="sürdürülebilirlik" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto p-12 bg-gradient-to-br from-green-500/10 to-cyan-500/10 border border-green-500/20 rounded-[3rem] text-center space-y-8 relative overflow-hidden">
+            <i data-lucide="leaf" class="absolute top-0 right-0 p-8 opacity-10 w-40 h-40"></i>
+            <div class="mx-auto w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mb-4">
+                <i data-lucide="leaf" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold" data-content="sustainabilityTitle">Doğa ile Dost Teknoloji</h2>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto" data-content="sustainabilityDesc">
+                Dijitalleşirken dünyayı koruyoruz. Veri merkezlerimiz tamamen yenilenebilir kaynaklarla beslenir.
+            </p>
+            <div class="flex justify-center gap-12 pt-8">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-400">1.21</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-widest" data-content="pueLabel">PUE ORANI</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-400">0%</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-widest" data-content="carbonLabel">KARBON ATIK</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded flex items-center justify-center">
+                    <i data-lucide="zap" class="text-black fill-current w-5 h-5"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tighter">SwiftNode</span>
+            </div>
+            <div class="flex gap-8 text-sm text-gray-500" id="footer-links">
+                <!-- Dinamik dolacak -->
+            </div>
+            <div class="text-gray-600 text-sm" data-content="footerText">
+                SwiftNode © 2024. Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dil İçerikleri
+        const translations = {
+            tr: {
+                nav: ['Hizmetler', 'Altyapı', 'Sürdürülebilirlik', 'İletişim'],
+                heroTitle: "Küresel zekanın yeni nesline güç veren dijital temeller.",
+                heroSub: "Dayanıklı, sürdürülebilir ve yüksek performanslı altyapı ile geleceği bugünden inşa edin.",
+                ctaPrimary: "Hemen Başlayın",
+                ctaSecondary: "Altyapıyı Keşfet",
+                stats: [
+                    { label: 'Uptime Garantisi', value: '%99.99' },
+                    { label: 'Yeşil Enerji', value: '%100' },
+                    { label: 'Küresel Düğüm', value: '25+' },
+                    { label: 'Gecikme Süresi', value: '<5ms' }
+                ],
+                servicesTitle: "Hizmetlerimiz",
+                services: [
+                    { title: "Bulut Altyapısı", desc: "Ölçeklenebilir, esnek ve yüksek hızlı bulut sunucu çözümleri.", icon: "cloud" },
+                    { title: "Yapay Zeka Üssü", desc: "GPU yoğunluklu hesaplamalar için optimize edilmiş ağlar.", icon: "cpu" },
+                    { title: "Veri Barındırma", desc: "Maksimum güvenlikli, yedekli ve fiziksel korumalı odalar.", icon: "server" }
+                ],
+                infraTitle: "Gelecek Nesil Mimari",
+                infraPoints: [
+                    { title: "Sıvı Soğutma Teknolojisi", desc: "Isıyı %40 daha verimli yöneten gelişmiş sistemler." },
+                    { title: "Veri Egemenliği", desc: "Verileriniz yerel yasalara uygun, tam koruma altında." },
+                    { title: "Modüler Genişleme", desc: "İhtiyacınız büyüdükçe altyapınızı saniyeler içinde ölçeklendirin." }
+                ],
+                sustainabilityTitle: "Doğa ile Dost Teknoloji",
+                sustainabilityDesc: "Dijitalleşirken dünyayı koruyoruz. Veri merkezlerimiz tamamen yenilenebilir kaynaklarla beslenir ve düşük karbon ayak izi taahhüdü verir.",
+                pueLabel: "PUE ORANI",
+                carbonLabel: "KARBON ATIK",
+                footerLinks: ["Gizlilik Politikası", "Kullanım Şartları", "Uyumluluk"],
+                footerText: "SwiftNode © 2024. Tüm hakları saklıdır."
+            },
+            en: {
+                nav: ['Services', 'Infrastructure', 'Sustainability', 'Contact'],
+                heroTitle: "Powering the next generation of global intelligence.",
+                heroSub: "Build the future today with resilient, sustainable, and high-performance digital foundations.",
+                ctaPrimary: "Get Started",
+                ctaSecondary: "Explore Infrastructure",
+                stats: [
+                    { label: 'Uptime Guarantee', value: '99.99%' },
+                    { label: 'Green Energy', value: '100%' },
+                    { label: 'Global Nodes', value: '25+' },
+                    { label: 'Latency', value: '<5ms' }
+                ],
+                servicesTitle: "Our Services",
+                services: [
+                    { title: "Cloud Infrastructure", desc: "Scalable, flexible, and high-speed cloud server solutions.", icon: "cloud" },
+                    { title: "AI Training Grounds", desc: "Optimized GPU-heavy clusters for advanced machine learning.", icon: "cpu" },
+                    { title: "Secure Colocation", desc: "Maximum security, redundant power, and protected vaults.", icon: "server" }
+                ],
+                infraTitle: "Next-Gen Architecture",
+                infraPoints: [
+                    { title: "Liquid Cooling Tech", desc: "Advanced systems managing heat 40% more efficiently." },
+                    { title: "Data Sovereignty", desc: "Your data stays protected and compliant with local regulations." },
+                    { title: "Modular Scalability", desc: "Scale your footprint in seconds as your demands grow." }
+                ],
+                sustainabilityTitle: "Environmentally Conscious Tech",
+                sustainabilityDesc: "Protecting the planet while digitizing it. Our data centers run on 100% renewable energy.",
+                pueLabel: "PUE RATIO",
+                carbonLabel: "CARBON WASTE",
+                footerLinks: ["Privacy Policy", "Terms of Service", "Compliance"],
+                footerText: "SwiftNode © 2024. All rights reserved."
+            }
+        };
+
+        let currentLang = 'tr';
+
+        // DOM Elementlerini Güncelleme
+        function updateContent() {
+            const t = translations[currentLang];
+
+            // Basit metinler
+            document.querySelectorAll('[data-content]').forEach(el => {
+                const key = el.getAttribute('data-content');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Navigasyon
+            const navLinks = document.getElementById('nav-links');
+            const mobileNavLinks = document.getElementById('mobile-nav-links');
+            navLinks.innerHTML = '';
+            mobileNavLinks.innerHTML = '';
+            t.nav.forEach(item => {
+                const link = `<a href="#${item.toLowerCase()}" class="text-sm font-medium text-gray-400 hover:text-cyan-400 transition-colors">${item}</a>`;
+                navLinks.innerHTML += link;
+                mobileNavLinks.innerHTML += `<a href="#${item.toLowerCase()}" onclick="toggleMobileMenu()" class="hover:text-cyan-400">${item}</a>`;
+            });
+
+            // İstatistikler
+            const statsContainer = document.getElementById('stats-container');
+            statsContainer.innerHTML = t.stats.map(s => `
+                <div class="text-center md:text-left">
+                    <div class="text-3xl md:text-4xl font-black text-white mb-1">${s.value}</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-500 font-bold">${s.label}</div>
+                </div>
+            `).join('');
+
+            // Hizmetler
+            const servicesGrid = document.getElementById('services-grid');
+            servicesGrid.innerHTML = t.services.map(s => `
+                <div class="p-8 bg-white/[0.03] border border-white/10 rounded-3xl hover:border-cyan-500/50 transition-all group">
+                    <div class="mb-6 p-4 bg-white/5 inline-block rounded-2xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="${s.icon}" class="w-8 h-8 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">${s.title}</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">${s.desc}</p>
+                    <button class="flex items-center gap-2 text-cyan-400 font-bold hover:gap-4 transition-all">
+                        ${currentLang === 'tr' ? 'Daha Fazla' : 'Read More'} <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            // Altyapı
+            const infraPoints = document.getElementById('infra-points');
+            infraPoints.innerHTML = t.infraPoints.map(p => `
+                <div class="flex gap-4 group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-black transition-all">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">${p.title}</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">${p.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Footer Linkleri
+            const footerLinks = document.getElementById('footer-links');
+            footerLinks.innerHTML = t.footerLinks.map(l => `<a href="#" class="hover:text-white transition-colors">${l}</a>`).join('');
+
+            // Dil Butonu Güncelleme
+            document.getElementById('lang-toggle-btn').textContent = currentLang === 'tr' ? 'EN' : 'TR';
+
+            // İkonları Yeniden Oluştur
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            document.body.classList.add('fade-in');
+            updateContent();
+            setTimeout(() => document.body.classList.remove('fade-in'), 500);
+        }
+
+        // Navigasyon Scroll Etkisi
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'py-4', 'border-b', 'border-white/10');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'py-4', 'border-b', 'border-white/10');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobil Menü Toggle
+        let isMobileMenuOpen = false;
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            isMobileMenuOpen = !isMobileMenuOpen;
+            
+            if (isMobileMenuOpen) {
+                menu.classList.remove('translate-x-full');
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('translate-x-full');
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Başlangıç
+        document.addEventListener('DOMContentLoaded', () => {
+            updateContent();
+        });
+    </script>
+</body>
+</html>
